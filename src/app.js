@@ -53,18 +53,14 @@ app.put("/repositories/:id", validateRepositoryId, (request, response) => {
   if(!isUuid(id))
     return response.status(400).json({ error: 'Invalid repository ID' });
 
-  const repositoryIndex = repositories.findIndex( repository => repository.id === id );
+  const repository = repositories.find( repository => repository.id === id );
 
-  if(repositoryIndex < 0)
+  if(!repository)
     return response.status(400).json({ error: 'Repository not found' });
-
-  const repository = repositories[repositoryIndex];
 
   repository.title = title;
   repository.url = url;
   repository.techs = techs;
-
-  repositories[repositoryIndex] = repository;
 
   return response.send(repository);
 });
