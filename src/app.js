@@ -25,24 +25,21 @@ app.get("/repositories", (request, response) => {
 });
 
 app.post("/repositories", (request, response) => {
-  const { body } = request;
+  const { title, url, techs } = request.body;
 
-  // body.id = '123';
-  body.id = uuid();
-  body.likes = 0;
+  // let id = '123';
+  let id = uuid();
 
-  if(!isUuid(body.id))
+  if(!isUuid(id))
     return response.status(400).json({ error: 'Invalid repository ID' });
 
   const repository = {
-    id: body.id,
-    title: body.title,
-    url: body.url,
-    techs: body.techs,
+    id,
+    title,
+    url,
+    techs,
     likes: 0
   };
-
-  // delete repository.url;
 
   repositories.push(repository);
   
